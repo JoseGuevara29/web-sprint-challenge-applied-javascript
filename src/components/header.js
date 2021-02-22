@@ -1,3 +1,5 @@
+import { TestScheduler } from "jest";
+
 const Header = (title, date, temp) => {
   // TASK 1
   // ---------------------
@@ -11,6 +13,28 @@ const Header = (title, date, temp) => {
   //    <span class="temp">{ temp }</span>
   //  </div>
   //
+
+  const divHeader = document.createElement("div");
+  const dateSpan = document.createElement("span");
+  const h1Title = document.createElement("h1");
+  const tempSpan = document.createElement("span");
+
+
+  divHeader.classList.add('header')
+  dateSpan.classList.add('date')
+  tempSpan.classList.add('temp')
+
+  dateSpan.textContent = `${date}`;
+  h1Title.textContent = `${title}`;
+  tempSpan.textContent = `${temp}`;
+
+  divHeader.appendChild(dateSpan);
+  divHeader.appendChild(h1Title)
+  divHeader.appendChild(tempSpan)
+
+  console.log(divHeader)
+  return divHeader;
+
 }
 
 const headerAppender = (selector) => {
@@ -20,6 +44,11 @@ const headerAppender = (selector) => {
   // It should create a header using the Header component above, passing arguments of your choosing.
   // It should append the header to the element in the DOM that matches the given selector.
   //
+
+  let headerReturn = Header("The Day I was born", "06/29/1997", "It was a Sunday");
+  
+  document.querySelector(selector).appendChild(headerReturn);
+
 }
 
 export { Header, headerAppender }
