@@ -1,3 +1,4 @@
+import axios from "axios";
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,7 +18,37 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
-}
+
+  const divCard = document.createElement("div");
+  divCard.classList.add("card");
+
+  const divHeadline = document.createElement("div");
+  divHeadline.classList.add("headline");
+  divHeadline.textContent = `${article.headline}`;
+  divCard.appendChild(divHeadline);
+
+  const divAuthor = document.createElement("div");
+  divAuthor.classList.add("author");
+
+  const divImg = document.createElement("div");
+  divImg.classList.add("img-container");
+  const img = document.createElement("img");
+  img.src = `${article.authorPhoto}`;
+  divImg.appendChild(img);
+  divAuthor.appendChild(divImg);
+
+  const spanName = document.createElement("span");
+  spanName.textContent = `${article.authorName}`;
+  divAuthor.appendChild(spanName);
+  divCard.appendChild(divAuthor);
+
+  divCard.addEventListener("click", () => {
+    console.log(`${article.headline}`);
+  });
+
+  console.log(divCard);
+  return divCard;
+};
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -28,6 +59,34 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
-}
 
-export { Card, cardAppender }
+  axios
+    .get("https://lambda-times-api.herokuapp.com/articles")
+    .then(({ data }) => {
+      //getting the data and initialising the Tabs method.
+      // console.log(data.articles)
+      let articlesArr = Object.values(data.articles);
+      // console.log(articlesArr)
+      let arr0 = articlesArr[0];
+      // console.log(arr0)
+      let arr1 = articlesArr[1];
+      // console.log(arr1)
+      let arr2 = articlesArr[2];
+      // console.log(arr2)
+      let arr3 = articlesArr[3];
+      // console.log(arr3)
+      let arr4 = articlesArr[4];
+      // console.log(arr4)
+
+      let finalArr = [...arr0, ...arr1, ...arr2, ...arr3, ...arr4];
+      console.log(finalArr);
+
+      let finalElement = finalArr.map((element) => {
+        console.log(element);
+        return document.querySelector(selector).appendChild(Card(element));
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+export { Card, cardAppender };
